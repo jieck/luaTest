@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <stdio.h>
+#include <signal.h>
 
 extern "C" {
 #include "lua.h"
@@ -51,6 +52,42 @@ double add(lua_State* L, double a, double b) {
     return sum;
 };
 
+static int mul(lua_State* L) {
+    double a = lua_tonumber(L, 1);
+    double b = lua_tonumber(L, 2);
+    lua_pushnumber(L, a * b);
+    return 1;
+}
+
+int testCLua(lua_State* L) {
+    lua_pushcfunction(L, mul);
+    lua_setglobal(L, "mul");
+
+    luaL_dofile(L, "G:\\lua_c\\ConsoleApplication1\\ConsoleApplication1\\test.lua"); // 偷下懒直接用绝对路径了
+    // abort();
+    //signal();
+    int z = (int)nullptr;
+    int i = 1 / z;
+    printf("sum = %f\n", f(L, 1.2, 3.5));
+    printf("add = %f", f(L, 1, 2));
+}
+
+int testCppLua(lua_State* L) {
+
+}
+
+int testCPPLua(lua_State* L) {
+
+    luaL_dofile(L, "G:\\lua_c\\ConsoleApplication1\\ConsoleApplication1\\test.lua"); // 偷下懒直接用绝对路径了
+    // abort();
+    //signal();
+    //int z = (int)nullptr;
+    //int i = 1 / z;
+    //testCLua(L);  // c-lua交互演示
+    testCppLua(L); // cpp-lua交互演示
+    printf("sum = %f\n", f(L, 1.2, 3.5));
+    printf("add = %f", f(L, 1, 2));
+}
 
 int main()
 {
@@ -58,10 +95,12 @@ int main()
     lua_State* L = luaL_newstate();
     // luaL_dofile();
     luaL_openlibs(L);
-    luaL_dofile(L, "G:\\lua_c\\ConsoleApplication1\\ConsoleApplication1\\test.lua");
 
-    printf("sum = %f\n", f(L, 1.2, 3.5));
-    printf("add = %f", f(L, 1, 2));
+    //testCLua(L); // 简单的C-Lua交互
+    //testCPPLua(L); // 面向对象的方式来使用lua
+    int* p = nullptr;
+    *p = 20;
+
     lua_close(L);
     return 0;
 }
