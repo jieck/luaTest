@@ -18,6 +18,7 @@ public:
 	void setId(string id);
 
 	string getType();
+	void setType(string type);
 private:
 	string _id;
 	string _type;

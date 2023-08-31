@@ -17,7 +17,17 @@ void Widget::setId(string id) {
 	this->_id = id;
 };
 
+string Widget::getId() {
+	return this->_id;
+};
+
+
 string Widget::getType() {
 	return this->_type;
+};
+
+
+void Widget::setType(string type) {
+	this->_type = type;
 };
 

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <signal.h>
-
+#include "luaUI.h"
 extern "C" {
 #include "lua.h"
 #include "lauxlib.h"
@@ -70,23 +70,17 @@ int testCLua(lua_State* L) {
     int i = 1 / z;
     printf("sum = %f\n", f(L, 1.2, 3.5));
     printf("add = %f", f(L, 1, 2));
-}
-
-int testCppLua(lua_State* L) {
-
+    return 1;
 }
 
 int testCPPLua(lua_State* L) {
+    // 注册模块
+    luaL_requiref(L, "UI", openUILib, 1);
 
-    luaL_dofile(L, "G:\\lua_c\\ConsoleApplication1\\ConsoleApplication1\\test.lua"); // 偷下懒直接用绝对路径了
-    // abort();
-    //signal();
-    //int z = (int)nullptr;
-    //int i = 1 / z;
-    //testCLua(L);  // c-lua交互演示
-    testCppLua(L); // cpp-lua交互演示
-    printf("sum = %f\n", f(L, 1.2, 3.5));
-    printf("add = %f", f(L, 1, 2));
+
+    luaL_dofile(L, "G:\\lua_c\\ConsoleApplication1\\ConsoleApplication1\\testCppLua.lua"); // 偷下懒直接用绝对路径了
+    cout << "dd" << endl;
+    return 1;
 }
 
 int main()
@@ -97,9 +91,9 @@ int main()
     luaL_openlibs(L);
 
     //testCLua(L); // 简单的C-Lua交互
-    //testCPPLua(L); // 面向对象的方式来使用lua
-    int* p = nullptr;
-    *p = 20;
+    testCPPLua(L); // 面向对象的方式来使用lua
+    //int* p = nullptr;
+    //*p = 20;
 
     lua_close(L);
     return 0;

@@ -16,8 +16,8 @@ int luaGetType(lua_State* L);
 int luaGc(lua_State* L);
 
 static const luaL_Reg regUIMethods[] = {
-	{"createWidget"},
-	{"createWidgetWithIdAndType"},
+	{"createWidget", luaCreateWidget},
+	{"createWidgetWithIdAndType",luaCreateWidgetWithIdAndType},
 	{NULL, NULL},
 };
 
@@ -26,7 +26,9 @@ static const luaL_Reg regWidgetMethods[] = {
 	{"getId", luaGetId},
 	{"setType", luaSetType},
 	{"getType", luaGetType},
+	{"__gc", luaGc},
 	{NULL, NULL},
 };
 
+// 负责创建原表，注册方法到原表，以及将创建方法引用到库里面
 int openUILib(lua_State* L);
